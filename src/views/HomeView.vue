@@ -1,6 +1,7 @@
 <template>
 
-  <h1 class="pt-5 mb-4 text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-6xl">Soo, what did I cook?
+  <h1 class="pt-5 mb-4 text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-6xl">Soo, what did I
+    cook?
   </h1>
 
 
@@ -33,42 +34,32 @@ export default {
     };
   },
   created() {
-    db.collection("categories")
-      .get()
-      .then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-          this.categories.push({
-            id: doc.id,
-            name: doc.data().name
-          });
-          console.log(doc.id, " => ", doc.data());
-        });
-      })
-      .catch((error) => {
-        console.log("Error getting documents: ", error);
-      });
+    this.loadCategories();
   },
   methods: {
+    loadCategories() {
+      this.categories = [];
+      db.collection("categories")
+        .get()
+        .then((querySnapshot) => {
+          querySnapshot.forEach((doc) => {
+            this.categories.push({
+              id: doc.id,
+              name: doc.data().name
+            });
+            console.log(doc.id, " => ", doc.data());
+          });
+        })
+        .catch((error) => {
+          console.log("Error getting documents: ", error);
+        });
+    },
     createEmployee() {
       db.collection("categories")
         .add({ name: this.name })
         .then(() => {
           console.log("Document successfully written!");
-          this.categories = [];
-          db.collection("categories")
-            .get()
-            .then((querySnapshot) => {
-              querySnapshot.forEach((doc) => {
-                this.categories.push({
-                  id: doc.id,
-                  name: doc.data().name
-                });
-                console.log(doc.id, " => ", doc.data());
-              });
-            })
-            .catch((error) => {
-              console.log("Error getting documents: ", error);
-            });
+          this.loadCategories();
         })
         .catch((error) => {
           console.error("Error writing document: ", error);
