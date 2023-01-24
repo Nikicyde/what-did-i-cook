@@ -1,11 +1,11 @@
 <template>
 
-  <h1 class="pt-5 mb-4 text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-6xl">Soo, what did I
+  <h1 class="pt-5 mb-4 pl-2 text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-6xl">Soo, what did I
     cook?
   </h1>
 
 
-  <div class="grid grid-cols-2  text-center pb-5">
+  <div class="grid grid-cols-2 text-center pb-5">
     <div v-for="item in categories" :key="item.id"
       class="py-10 mx-4 mt-5 border border-black rounded-lg shadow-lg uppercase bg-slate-600 bg-opacity-25 hover:bg-slate-400 font-extrabold text-white">
       {{ item.name }}
