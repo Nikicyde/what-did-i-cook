@@ -1,7 +1,7 @@
 <template>
 
   <h1 class="pt-5 mb-4 pl-2 text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-6xl">Soo, what did I
-    cook?
+    cook? 1.0
   </h1>
 
 
