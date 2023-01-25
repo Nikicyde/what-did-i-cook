@@ -4,7 +4,7 @@
     <!-- <nav>
       <router-link to="/">Home</router-link>
     </nav> -->
-    <h1 class="pt-5 mb-4 pl-2 text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-6xl" @click="showHome()">Soo, what
+    <h1 class="pt-5 mb-4 pl-2 text-3xl font-extrabold text-white" @click="showHome()">Soo, what
       did
       I
       cook?
