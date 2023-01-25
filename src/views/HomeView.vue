@@ -59,6 +59,7 @@ export default {
         .add({ name: this.name })
         .then(() => {
           console.log("Document successfully written!");
+          this.name = '';
           this.loadCategories();
         })
         .catch((error) => {
