@@ -16,7 +16,7 @@
 
     <div v-else>
 
-        <h1 class="pt-5 decoration-1 text-center uppercase text-xl font-extrabold text-gray-200">{{ categoryName }}</h1>
+        <h1 class="pt-5 decoration-1 text-center uppercase text-xl font-semibold text-gray-800 drop-shadow-lg">{{ categoryName }}</h1>
 
         <div class="grid grid-cols-1 pb-5 text-center relative">
             <div v-if="recipes.length != 0">
@@ -31,7 +31,7 @@
                 </div>
             </div>
             <div v-else>
-                <p class="font-extrabold mt-5 text-xl text-gray-300">Momentálne tu nie sú <br>žiadne recepty :(</p>
+                <p class="font-extrabold mt-5 text-xl text-gray-800 drop-shadow-sm">Momentálne tu nie sú <br>žiadne recepty :(</p>
             </div>
         </div>
 

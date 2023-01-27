@@ -17,8 +17,8 @@
   <div v-else>
     <div class="grid grid-cols-2 text-center pb-5">
       <div v-for="item in categories" :key="item.id" v-on:click="showCategoryDetail(item.id, item.name)"
-        class="py-10 mx-4 mt-5 border border-black rounded-lg shadow-lg uppercase bg-slate-600 bg-opacity-25 hover:bg-slate-400 font-extrabold text-white flex items-center justify-center">
-          {{ item.name }}
+        class="py-10 mx-4 mt-5 border border-black rounded-lg shadow-lg uppercase bg-slate-600 bg-opacity-25 hover:bg-slate-400 font-extrabold text-white flex items-center justify-center break-normal">
+          <p class="text-ellipsis overflow-hidden">{{ item.name }}</p>
       </div>
     </div>
 
