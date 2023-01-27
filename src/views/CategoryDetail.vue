@@ -26,7 +26,7 @@
                         class="float-right mr-4 absolute right-1 -mt-1 font-medium">x</button>
                     <p class="uppercase font-semibold mb-2 text-md mt-2">{{ item.name }}</p>
                     <!-- <p v-if="item.source != 'URL'">{{ item.source }}</p> -->
-                    <a v-if="item.source === 'URL'" :href="item.sourceDetail" target="_blank">Click me</a>
+                    <a v-if="item.source === 'URL'" :href="item.sourceDetail" target="_blank">Link</a>
                     <p v-else class="text-sm text-gray-600 mb-2">{{ item.sourceDetail }}</p>
                 </div>
             </div>
