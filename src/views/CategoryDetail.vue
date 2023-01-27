@@ -21,13 +21,13 @@
         <div class="grid grid-cols-1 pb-5 text-center relative">
             <div v-if="recipes.length != 0">
                 <div v-for="item in recipes" :key="item.id"
-                    class="mt-5 bg-white rounded-xl shadow-xl mx-3 bg-opacity-50 border border-solid border-slate-400">
-                    <button @click="deleteRecipe(item.id)"
-                        class="float-right mr-4 absolute right-1 -mt-1 font-medium">x</button>
+                    class="mt-5 bg-white rounded-xl shadow-xl mx-3 bg-opacity-50 border border-solid border-slate-400 pb-2">
+                    <!-- <button @click="deleteRecipe(item.id)"
+                        class="float-right mr-4 absolute right-1 -mt-1 font-medium">x</button> -->
                     <p class="uppercase font-semibold mb-2 text-md mt-2">{{ item.name }}</p>
                     <!-- <p v-if="item.source != 'URL'">{{ item.source }}</p> -->
-                    <a v-if="item.source === 'URL'" :href="item.sourceDetail" target="_blank">Link</a>
-                    <p v-else class="text-sm text-gray-600 mb-2">{{ item.sourceDetail }}</p>
+                    <a v-if="item.source === 'URL'" :href="item.sourceDetail" target="_blank" class="text-sm text-gray-600">Link</a>
+                    <p v-else class="text-sm text-gray-600">{{ item.sourceDetail }}</p>
                 </div>
             </div>
             <div v-else>
@@ -54,11 +54,11 @@
                 Pridať</button>
         </div>
 
-        <div class="grid grid-cols-1 mt-5">
+        <!-- <div class="grid grid-cols-1 mt-5">
             <button @click="deleteCategory()" type="button"
                 class="text-white mt-2 bg-gradient-to-r from-red-500 via-red-600 to-red-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mx-2 mb-2">Vymazať
                 kategóriu</button>
-        </div>
+        </div> -->
     </div>
 
 </template>
