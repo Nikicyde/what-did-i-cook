@@ -16,19 +16,19 @@
 
   <div v-else>
     <div class="grid grid-cols-2 text-center pb-5">
-      <div v-for="item in categories" :key="item.id" v-on:click="showCategoryDetail(item.id)"
+      <div v-for="item in categories" :key="item.id" v-on:click="showCategoryDetail(item.id, item.name)"
         class="py-10 mx-4 mt-5 border border-black rounded-lg shadow-lg uppercase bg-slate-600 bg-opacity-25 hover:bg-slate-400 font-extrabold text-white">
         {{ item.name }}
       </div>
     </div>
 
     <div class="grid grid-cols-1 mt-5">
-      <input type="text" id="small-input" v-model="name" placeholder="Insert category name"
-        class="block w-50% p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500">
+      <input type="text" id="small-input" v-model="name" placeholder="Názov kategórie"
+        class="block w-50% p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 mx-2">
 
       <button @click="createCategory()" type="button"
-        class="text-white mt-2 bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">+
-        Add Category</button>
+        class="text-white mt-2 bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mx-2 mb-2">+
+        Pridať</button>
     </div>
   </div>
 
@@ -82,8 +82,8 @@ export default {
           });
       }
     },
-    showCategoryDetail(id) {
-      this.$router.push({ path: '/category/' + id })
+    showCategoryDetail(id, name) {
+      this.$router.push({ path: '/category/' + id, query: {name: name} })
     },
   },
 };

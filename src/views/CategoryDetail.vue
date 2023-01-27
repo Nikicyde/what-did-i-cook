@@ -1,8 +1,7 @@
 <template>
     <div v-if="loading" class="text-center h-screen pt-20">
         <div role="status">
-            <svg aria-hidden="true"
-                class="inline w-8 h-8 mr-2 text-gray-200 animate-spin fill-blue-600"
+            <svg aria-hidden="true" class="inline w-8 h-8 mr-2 text-gray-200 animate-spin fill-blue-600"
                 viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
                     d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
@@ -16,37 +15,49 @@
     </div>
 
     <div v-else>
-        <div class="grid grid-cols-2 pb-5 text-center">
-            <div v-for="item in recipes" :key="item.id" class="mt-5 text-white">
-                <p class="uppercase  underline underline-offset-3 decoration-8 font-extrabold mb-2">{{ item.name }}</p>
-                <p v-if="item.source != 'URL'">{{ item.source }}</p>
-                <a v-if="item.source === 'URL'" :href="item.sourceDetail" target="_blank">Click me</a>
-                <p v-else>{{ item.sourceDetail }}</p>
+
+        <h1 class="pt-5 decoration-1 text-center uppercase text-xl font-extrabold text-gray-200">{{ categoryName }}</h1>
+
+        <div class="grid grid-cols-1 pb-5 text-center relative">
+            <div v-if="recipes.length != 0">
+                <div v-for="item in recipes" :key="item.id"
+                    class="mt-5 bg-white rounded-xl shadow-xl mx-3 bg-opacity-50 border border-solid border-slate-400">
+                    <button @click="deleteRecipe(item.id)"
+                        class="float-right mr-4 absolute right-1 -mt-1 font-medium">x</button>
+                    <p class="uppercase font-semibold mb-2 text-md mt-2">{{ item.name }}</p>
+                    <!-- <p v-if="item.source != 'URL'">{{ item.source }}</p> -->
+                    <a v-if="item.source === 'URL'" :href="item.sourceDetail" target="_blank">Click me</a>
+                    <p v-else class="text-sm text-gray-600 mb-2">{{ item.sourceDetail }}</p>
+                </div>
+            </div>
+            <div v-else>
+                <p class="font-extrabold mt-5 text-xl text-gray-300">Momentálne tu nie sú <br>žiadne recepty :(</p>
             </div>
         </div>
 
         <div class="grid grid-cols-1 mt-5">
-            <input type="text" id="small-input" v-model="name" placeholder="Insert recipe name"
-                class="block w-50% p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500">
+            <input type="text" id="small-input" v-model="name" placeholder="Názov receptu"
+                class="block w-50% p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 mx-2">
 
             <select id="countries" v-model="source"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2 mt-2">
-                <option value="Book">Book</option>
-                <option value="URL">URL</option>
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block mx-2 p-2 mt-2 ">
+                <option value="Book">Kniha</option>
+                <option value="URL">Stránka</option>
+                <option value="Own">Vlastný recept</option>
             </select>
 
-            <input type="text" id="small-input" v-model="sourceDetail" placeholder="Insert source detail"
-                class="block w-50% p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 mt-2">
+            <input type="text" id="small-input" v-model="sourceDetail" placeholder="Kniha, strana, URL, poznámky, ..."
+                class="block w-50% p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 mt-2 mx-2">
 
             <button @click="createRecipe()" type="button"
-                class="text-white mt-2 bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">+
-                Add Recipe</button>
+                class="text-white mt-2 bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mx-2 mb-2">+
+                Pridať</button>
         </div>
 
         <div class="grid grid-cols-1 mt-5">
             <button @click="deleteCategory()" type="button"
-                class="text-white mt-2 bg-gradient-to-r from-red-500 via-red-600 to-red-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Delete
-                Category</button>
+                class="text-white mt-2 bg-gradient-to-r from-red-500 via-red-600 to-red-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mx-2 mb-2">Vymazať
+                kategóriu</button>
         </div>
     </div>
 
@@ -62,10 +73,12 @@ export default {
             name: '',
             source: 'Book',
             sourceDetail: '',
-            loading: true
+            loading: true,
+            categoryName: ''
         };
     },
     created() {
+        this.categoryName = this.$route.query.name
         this.loadRecipes();
     },
     methods: {
@@ -93,6 +106,19 @@ export default {
                     console.error("Error removing document: ", error);
                 });
 
+        },
+        deleteRecipe(id) {
+            this.loading = true;
+            db.collection("recipes")
+                .doc(id)
+                .delete()
+                .then(() => {
+                    console.log("Document successfully deleted!");
+                    this.loadRecipes();
+                })
+                .catch((error) => {
+                    console.error("Error removing document: ", error);
+                });
         },
         loadRecipes() {
             this.recipes = [];
