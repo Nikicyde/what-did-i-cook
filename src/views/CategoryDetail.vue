@@ -16,7 +16,9 @@
 
     <div v-else>
 
-        <h1 class="pt-5 decoration-1 text-center uppercase text-xl font-semibold text-gray-800 drop-shadow-lg">{{ categoryName }}</h1>
+        <h1 class="pt-5 decoration-1 text-center uppercase text-xl font-semibold text-gray-800 drop-shadow-lg">{{
+            categoryName
+        }}</h1>
 
         <div class="grid grid-cols-1 pb-5 text-center relative">
             <div v-if="recipes.length != 0">
@@ -24,14 +26,19 @@
                     class="mt-5 bg-white rounded-xl shadow-xl mx-3 bg-opacity-50 border border-solid border-slate-400 pb-2">
                     <!-- <button @click="deleteRecipe(item.id)"
                         class="float-right mr-4 absolute right-1 -mt-1 font-medium">x</button> -->
-                    <p class="uppercase font-semibold mb-2 text-md mt-2">{{ item.name }}</p>
-                    <!-- <p v-if="item.source != 'URL'">{{ item.source }}</p> -->
-                    <a v-if="item.source === 'URL'" :href="item.sourceDetail" target="_blank" class="text-sm text-gray-600">Link</a>
-                    <p v-else class="text-sm text-gray-600">{{ item.sourceDetail }}</p>
+                    <p class="uppercase font-semibold mb-2 text-md mt-2 mx-5">{{ item.name }}</p>
+                    <a v-if="item.source === 'URL'" :href="item.sourceDetail" target="_blank"
+                        class="text-sm text-gray-600 font-semibold">Link</a>
+                    <p v-else-if="item.source === 'Book'" class="text-sm text-gray-600 font-semibold">
+                        {{ item.sourceDetail }} ({{ item.bookPage }})</p>
+                    <p v-else class="text-sm text-gray-600 italic">{{ item.sourceDetail }}</p>
+                    <p class="text-sm text-gray-600 italic">{{ item.urlDetail }}</p>
+                    <p class="text-sm text-gray-600 italic">{{ item.bookDetail }}</p>
                 </div>
             </div>
             <div v-else>
-                <p class="font-extrabold mt-5 text-xl text-gray-800 drop-shadow-sm">Momentálne tu nie sú <br>žiadne recepty :(</p>
+                <p class="font-extrabold mt-5 text-xl text-gray-800 drop-shadow-sm">Momentálne tu nie sú <br>žiadne
+                    recepty :(</p>
             </div>
         </div>
 
@@ -46,7 +53,23 @@
                 <option value="Own">Vlastný recept</option>
             </select>
 
-            <input type="text" id="small-input" v-model="sourceDetail" placeholder="Kniha, strana, URL, poznámky, ..."
+            <input v-if="source === 'URL'" type="text" id="small-input" v-model="sourceDetail" placeholder="URL"
+                class="block w-50% p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 mt-2 mx-2">
+
+            <input v-else-if="source === 'Book'" type="text" id="small-input" v-model="sourceDetail" placeholder="Názov knihy"
+                class="block w-50% p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 mt-2 mx-2">
+
+            <input v-if="source === 'Book'" type="text" id="small-input" v-model="bookPage" placeholder="Strana"
+                class="block w-50% p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 mt-2 mx-2">
+
+            <input v-if="source === 'URL'" type="text" id="small-input" v-model="urlDetail" placeholder="Poznámky"
+                class="block w-50% p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 mt-2 mx-2">
+
+            <input v-else-if="source === 'Book'" type="text" id="small-input" v-model="bookDetail"
+                placeholder="Poznámky"
+                class="block w-50% p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 mt-2 mx-2">
+
+            <input v-else type="text" id="small-input" v-model="sourceDetail" placeholder="Poznámky"
                 class="block w-50% p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 mt-2 mx-2">
 
             <button @click="createRecipe()" type="button"
@@ -73,6 +96,9 @@ export default {
             name: '',
             source: 'Book',
             sourceDetail: '',
+            urlDetail: '',
+            bookDetail: '',
+            bookPage: '',
             loading: true,
             categoryName: ''
         };
@@ -131,6 +157,9 @@ export default {
                             name: doc.data().name,
                             source: doc.data().source,
                             sourceDetail: doc.data().sourceDetail,
+                            urlDetail: doc.data().urlDetail,
+                            bookDetail: doc.data().bookDetail,
+                            bookPage: doc.data().bookPage,
                         });
                         console.log(doc.id, " => ", doc.data());
                     });
@@ -141,14 +170,17 @@ export default {
                 });
         },
         createRecipe() {
-            if (this.name !== '') {
+            if (this.name !== '' && this.sourceDetail !== '') {
                 this.loading = true;
                 db.collection("recipes")
-                    .add({ name: this.name, category: this.$route.params.id, source: this.source, sourceDetail: this.sourceDetail })
+                    .add({ name: this.name, category: this.$route.params.id, source: this.source, sourceDetail: this.sourceDetail, urlDetail: this.urlDetail, bookDetail: this.bookDetail, bookPage: this.bookPage })
                     .then(() => {
                         console.log("Document successfully written!");
                         this.name = '';
                         this.sourceDetail = '';
+                        this.urlDetail = '';
+                        this.bookDetail = '';
+                        this.bookPage = '';
                         this.loadRecipes();
                     })
                     .catch((error) => {
